@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torterra</title>
+    <link rel="icon" href="assets/torterra.png" type="image/png">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Center the image within the viewport */
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+            transition: filter 1s;
+        }
+        /* Define the spinning animation and transition */
+        .spin {
+            max-width: 75vw;
+            max-height: 75vh;
+            width: auto;
+            height: auto;
+            transition: transform 1s;
+        }
+        /* Rotate the image when clicked */
+        .spin.clicked {
+            transform: rotate(360deg);
+        }
+        body {
+            background-color: rgb(44, 44, 44);
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <section class="center">
+            <img id="torterraImage" src="assets/torterra.png" alt="Torterra" class="spin">
+        </section>
+    </main>
+    <script>
+        // Add click event listener to the image to toggle the 'clicked' class
+        document.getElementById('torterraImage').addEventListener('click', (event) => {
+            event.target.classList.toggle('clicked'); // Toggle the 'clicked' class to rotate the image
+        });
+
+        // Function to resize the image based on the window size
+        function resizeImage() {
+            const img = document.getElementById('torterraImage');
+            const maxWidth = window.innerWidth * 0.75;
+            const maxHeight = window.innerHeight * 0.75;
+            img.style.maxWidth = maxWidth + 'px';
+            img.style.maxHeight = maxHeight + 'px';
+        }
+
+        // Debounce function to limit the rate at which a function is called
+        function debounce(func, wait) {
+            let timeout;
+            return function(...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
+        }
+
+        // Add resize event listener to the window to call resizeImage function with debounce
+        window.addEventListener('resize', debounce(resizeImage, 200));
+
+        // Initial scaling of the image
+        resizeImage();
+    </script>
+</body>
+</html>
