@@ -1,0 +1,115 @@
+/* Variables for easy adjustment */
+:root {
+    --dot-size: 3px; /* Size of each dot in pixels */
+    --dot-spacing: 40px; /* Spacing between dots in pixels */
+    --animation-duration: 5s; /* Duration of the animation in seconds */
+    --center-height: 80vh; /* Height of the center section */
+    --spin-max-width: 75vw; /* Maximum width of the spinning image */
+    --spin-max-height: 75vh; /* Maximum height of the spinning image */
+    --transition-duration: 1s; /* Duration of transitions */
+    --button-size: 60px; /* Size of the color switch button */
+    --button-border-radius: 10px; /* Border radius of the color switch button */
+}
+
+/* Color palettes */
+:root {
+    /* Torterra-inspired color palette */
+    --torterra-dot-color: rgba(255, 255, 255, 0.3); /* Light gray dots */
+    --torterra-color-1: rgba(76, 187, 23, 0.8);   /* Light green */
+    --torterra-color-2: rgba(139, 69, 19, 0.8);  /* Brown */
+
+    /* Gradient Blue color palette */
+    --blue-dot-color: rgba(255, 255, 255, 0.2); /* Lighter gray dots */
+    --blue-color-1: rgba(0, 0, 50, 1);      /* Dark blue */
+    --blue-color-2: rgba(0, 0, 30, 1);      /* Darker blue */
+
+    /* Splatoon-inspired color palette */
+    --splatoon-dot-color: rgba(255, 255, 255, 0.5); /* White dots */
+    --splatoon-color-1: rgb(208, 190, 8);   /* Yellow */
+    --splatoon-color-2: rgb(58, 12, 205);  /* Blue */
+
+    /* Active color palette (Torterra by default) */
+    --active-dot-color: var(--torterra-dot-color);
+    --active-color-1: var(--torterra-color-1);
+    --active-color-2: var(--torterra-color-2);
+}
+
+/* Button styles */
+.color-switch-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: var(--button-size); /* Increased width */
+    height: var(--button-size); /* Increased height */
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+    opacity: 1;
+    border-radius: var(--button-border-radius); /* Rounded corners */
+}
+
+/* Center the image within the viewport */
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: var(--center-height);
+    transition: filter var(--transition-duration);
+}
+
+/* Define the spinning animation and transition */
+.spin {
+    max-width: var(--spin-max-width);
+    max-height: var(--spin-max-height);
+    width: auto;
+    height: auto;
+    transition: transform var(--transition-duration); /* Keep the transition for the rotation */
+    transform-style: preserve-3d; /* Ensure 3D transformations are applied */
+}
+
+/* Rotate the image when clicked */
+.spin.clicked {
+    transform: rotate(360deg);
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    background-color: rgb(44, 44, 44);
+}
+
+/* Background styles */
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, var(--active-color-1) 0%, var(--active-color-2) 100%);
+    z-index: -1;
+    overflow: hidden;
+}
+
+/* Moving dots styles */
+.background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle, var(--active-dot-color) var(--dot-size), transparent var(--dot-size));
+    background-size: var(--dot-spacing) var(--dot-spacing);
+    animation: move var(--animation-duration) linear infinite;
+}
+
+/* Keyframes for the moving dots animation */
+@keyframes move {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: var(--dot-spacing) var(--dot-spacing);
+    }
+}
